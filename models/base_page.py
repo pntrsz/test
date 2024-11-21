@@ -12,7 +12,7 @@ class BasePage():
 
 
     def visit(self):            
-        self.page.goto(self.url)
+        self.page.goto(self.url, wait_until="domcontentloaded")
         if self.gdpr.count() > 0:
             self.gdpr.click()
 
