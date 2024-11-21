@@ -20,7 +20,3 @@ class BasePage():
     def get_encoded_screenshot(self):
         screenshot = self.map_element.screenshot(type="jpeg", quality=40, animations="disabled", scale="css")
         return base64.b64encode(screenshot)
-    
-
-    def get_map_element(self):
-        return self.map_element
