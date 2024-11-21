@@ -22,6 +22,5 @@ def visit_heat_map_site(context):
 @then(u'actual heat map is included')
 def map_is_included(context):
     heat_map_page = context.page
-    screen_b64 = heat_map_page.get_encoded_screenshot()
-    context.log=screen_b64
-    expect(heat_map_page.get_map_element()).to_have_count(1)
+    context.log = heat_map_page.get_encoded_screenshot()
+    expect(heat_map_page.map_element).to_have_count(1)
