@@ -14,10 +14,13 @@ def create_dir(name):
 
 
 def before_all(context):
-    use_fixture(create_dir, "./out/")
-    out_dir = "./out/"+ datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S") + "/"
-    context.out = out_dir
+    out_dir = "./out/"
     use_fixture(create_dir, out_dir)
+    with open(out_dir + ".gitignore", "w") as file:
+                file.write("*")
+    stamp_dir = "./out/"+ datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S") + "/"
+    context.out = stamp_dir
+    use_fixture(create_dir, stamp_dir)
 
 
 
