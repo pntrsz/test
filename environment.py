@@ -1,11 +1,39 @@
-import os
+import os, parse
+from dotenv import load_dotenv
+from datetime import datetime, timezone
 from behave import fixture, use_fixture, register_type
 from playwright.sync_api import sync_playwright
-import parse
 
 
 ENV_URL = os.environ.get('BASE_URL')
 
+
+@fixture
+def create_dir(name):
+    if not os.path.isdir(name):
+        os.mkdir(name)
+
+@fixture
+def prepare_dir(context):
+    out_dir = "./out/"
+    use_fixture(create_dir, out_dir)
+    with open(out_dir + ".gitignore", "w") as file:
+                file.write("*")
+    stamp_dir = "./out/"+ datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S") + "/"
+    context.out = stamp_dir
+    use_fixture(create_dir, stamp_dir)
+
+
+@fixture
+def print_env(context):
+    load_dotenv()
+    env_name = os.getenv('ENV_NAME', "PROD")
+    print(f'Test executed on {env_name} environment!')
+
+
+def before_all(context):
+    use_fixture(prepare_dir, context)
+    use_fixture(print_env, context)
 
 @fixture
 def init_browser(context):
